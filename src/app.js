@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import _ from 'lodash';
 import BindingListView from './BindingListView';
+import TestRow from "./TestRow";
 
 const images = [
   'https://i.imgur.com/GCBVgXDb.jpg',
@@ -140,4 +141,5 @@ const styles = StyleSheet.create({
   }
 });
 
+AppRegistry.registerComponent('TestRow', () => TestRow);
 AppRegistry.registerComponent('BindingListView', () => App);

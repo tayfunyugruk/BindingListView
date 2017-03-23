@@ -6,6 +6,7 @@
 #import <React/UIView+React.h>
 #import <React/RCTBridge.h>
 #import <React/RCTUIManager.h>
+#import <React/RCTRootView.h>
 
 @interface RCTUIManager (BindingListView)
 
@@ -19,6 +20,7 @@ RCTBridge *_bridge;
 UITableView *_tableView;
 RCTUIManager *_uiManager;
 NSMutableArray *_unusedCells;
+static NSString *CellIdentifier = @"newFriendCell";
 
 - (instancetype)initWithBridge:(RCTBridge *)bridge
 {
@@ -45,7 +47,9 @@ RCT_NOT_IMPLEMENTED(-initWithCoder:(NSCoder *)aDecoder)
 
 - (void)insertReactSubview:(UIView *)subview atIndex:(NSInteger)atIndex
 {
-  [_unusedCells addObject:subview];
+  //[_unusedCells addObject:subview];
+  UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+  [_unusedCells addObject:cell];
 }
 
 - (void)layoutSubviews
@@ -65,7 +69,7 @@ RCT_NOT_IMPLEMENTED(-initWithCoder:(NSCoder *)aDecoder)
 - (void)setRowHeight:(float)rowHeight
 {
   _tableView.estimatedRowHeight = rowHeight;
-  _rowHeight = rowHeight;
+  _rowHeight = 100;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView
@@ -100,7 +104,11 @@ RCT_NOT_IMPLEMENTED(-initWithCoder:(NSCoder *)aDecoder)
 
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+  
   RCTBindingCell *cell = (RCTBindingCell *)[theTableView dequeueReusableCellWithIdentifier:[RCTBindingCell getCellIdentifier]];
+  //UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier]; //(UITableViewCell *)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+  
+  //RCTBindingCell *cell = (RCTBindingCell *)[theTableView dequeueReusableCellWithIdentifier:[RCTBindingCell getCellIdentifier]];
   if (cell == nil)
   {
     //NSLog(@"Allocating childIndex %d for row %d", (int)cell.cellView.tag, (int)indexPath.row);
@@ -111,6 +119,10 @@ RCT_NOT_IMPLEMENTED(-initWithCoder:(NSCoder *)aDecoder)
     //NSLog(@"Recycling childIndex %d for row %d", (int)cell.cellView.tag, (int)indexPath.row);
   }
   
+  RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:_bridge moduleName: @"TestRow" initialProperties:nil];
+  
+  [cell addSubview:rootView];
+  /*
   NSDictionary *row = [self.rows objectAtIndex:indexPath.row];
     
   for (NSString *bindingId in self.binding)
@@ -134,7 +146,8 @@ RCT_NOT_IMPLEMENTED(-initWithCoder:(NSCoder *)aDecoder)
       [_uiManager synchronouslyUpdateViewOnUIThread:reactTag viewName:viewName props:@{prop: rowValue}];
     }
   }
-  
+  */
+   
   return cell;
 }
 
