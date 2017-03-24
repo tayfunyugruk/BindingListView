@@ -27,7 +27,7 @@ const images = [
 
 const names = require('./names.json');
 const contacts = [];
-for (let i=0 ; i<5000 ; i++) {
+for (let i=0 ; i<10 ; i++) {
   const first = _.sample(names);
   const last = _.sample(names);
   contacts.push({
@@ -43,61 +43,10 @@ export default class App extends Component {
       <View style={styles.container}>
         <BindingListView
           rows={contacts}
-          binding={[
-            { id: 'initialsText', toRowKey: 'initials' },
-            { id: 'nameText', toRowKey: 'name' },
-            { id: 'thumbnail', toRowKey: 'image'}
-          ]}
-          // renderItemTemplate={this.renderItemTemplate_withTextInputs.bind(this)}
-          // renderItemTemplate={this.renderItemTemplate_withTexts.bind(this)}
-          renderItemTemplate={this.renderItemTemplate_withImages.bind(this)}
-          rowHeight={71}
+          rowHeight={100}
           poolSize={20}
           style={{flex: 1}}
         />
-      </View>
-    );
-  }
-  renderItemTemplate_withTextInputs(bind) {
-    return (
-      <View style={styles.rowBody}>
-        <View style={styles.initialsCircle}>
-          <TextInput
-            ref={(element) => bind(element, { id: 'initialsText', toProp: 'text' })}
-            editable={false}
-            style={styles.initials} />
-        </View>
-        <TextInput
-          ref={(element) => bind(element, { id: 'nameText', toProp: 'text' })}
-          editable={false}
-          style={styles.name} />
-      </View>
-    );
-  }
-  renderItemTemplate_withTexts(bind) {
-    return (
-      <View style={styles.rowBody}>
-        <View style={[styles.initialsCircle, {backgroundColor: '#e6796a'}]}>
-          <Text
-            ref={(element) => bind(element, { id: 'initialsText', toProp: 'children' })}
-            style={styles.initials}>FL</Text>
-        </View>
-        <Text
-          ref={(element) => bind(element, { id: 'nameText', toProp: 'children' })}
-          style={styles.name}>First Last</Text>
-      </View>
-    );
-  }
-  renderItemTemplate_withImages(bind) {
-    return (
-      <View style={styles.rowBody}>
-        <Image
-          ref={(element) => bind(element, { id: 'thumbnail', toProp: 'source' })}
-          style={styles.initialsCircle}
-          source={{uri: images[0]}} />
-        <Text
-          ref={(element) => bind(element, { id: 'nameText', toProp: 'children' })}
-          style={styles.name}>First Last</Text>
       </View>
     );
   }

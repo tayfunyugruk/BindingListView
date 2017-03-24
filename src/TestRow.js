@@ -28,7 +28,7 @@ const TestRow = (props) => (
             <Image source={{ uri: "https://cdn0.iconfinder.com/data/icons/logos-brands/24/logo_brand_brands_logos_ubuntu-128.png"}} style={styles.photo}/>
         </TouchableOpacity>
         <Text style={styles.text}>
-            {`Tayfun YUGRUK`}
+            {props.name}
         </Text>
     </View>
 );

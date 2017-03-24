@@ -82,9 +82,9 @@ RCT_NOT_IMPLEMENTED(-initWithCoder:(NSCoder *)aDecoder)
   return self.numRows;
 }
 
-- (RCTBindingCell*)getUnusedCellFromPool
+- (UITableViewCell*)getUnusedCellFromPool
 {
-  RCTBindingCell* res = [_unusedCells lastObject];
+  UITableViewCell* res = [_unusedCells lastObject];
   [_unusedCells removeLastObject];
   if (res != nil)
   {
@@ -104,20 +104,24 @@ RCT_NOT_IMPLEMENTED(-initWithCoder:(NSCoder *)aDecoder)
 
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-  RCTBindingCell *cell = (RCTBindingCell *)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+  UITableViewCell *cell = (UITableViewCell *)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
   
   if (cell == nil)
   {
     cell = [self getUnusedCellFromPool];
     
-    RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:_bridge moduleName: @"TestRow" initialProperties:@{@"message" : [NSString stringWithFormat:@"Hi from Objective-C !!! %ld", (long)indexPath.row]}];
-    
+    RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:_bridge moduleName: @"TestRow" initialProperties:nil];
     [cell addSubview:rootView];
   }
   
-  RCTRootView *rootView = cell.subviews[1];
+  NSArray *binding = self.binding;
+  NSDictionary *dict = binding[indexPath.row];
+  NSString *name = [dict objectForKey:@"name"];
+  NSString *initials = [dict objectForKey:@"initials"];
   
-  rootView.appProperties = @{@"message" : [NSString stringWithFormat:@"Hi from Objective-C !!! %ld", (long)indexPath.row]};
+  RCTRootView *rootView = cell.subviews[1];
+  rootView.appProperties = @{@"name" : name,
+                             @"message" : initials};
   
   return cell;
 }
