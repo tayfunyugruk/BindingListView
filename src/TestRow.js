@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     },
     text: {
         height: 50,
-        width : 150,
+        width: 150,
         marginLeft: 12,
         fontSize: 16,
     },
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
 
 const TestRow = (props) => (
     <View style={styles.container}>
-        <TouchableOpacity onPress={() => Alert.alert("Deneme", "Deneme mesajı")}>
+        <TouchableOpacity onPress={() => Alert.alert("Deneme", props.message)}>
             <Image source={{ uri: "https://cdn0.iconfinder.com/data/icons/logos-brands/24/logo_brand_brands_logos_ubuntu-128.png"}} style={styles.photo}/>
         </TouchableOpacity>
         <Text style={styles.text}>

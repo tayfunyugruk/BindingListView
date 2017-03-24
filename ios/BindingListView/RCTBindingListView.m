@@ -105,7 +105,7 @@ RCT_NOT_IMPLEMENTED(-initWithCoder:(NSCoder *)aDecoder)
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
   
-  RCTBindingCell *cell = (RCTBindingCell *)[theTableView dequeueReusableCellWithIdentifier:[RCTBindingCell getCellIdentifier]];
+  RCTBindingCell *cell = (RCTBindingCell *)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
   //UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier]; //(UITableViewCell *)[theTableView dequeueReusableCellWithIdentifier:CellIdentifier];
   
   //RCTBindingCell *cell = (RCTBindingCell *)[theTableView dequeueReusableCellWithIdentifier:[RCTBindingCell getCellIdentifier]];
@@ -113,15 +113,17 @@ RCT_NOT_IMPLEMENTED(-initWithCoder:(NSCoder *)aDecoder)
   {
     //NSLog(@"Allocating childIndex %d for row %d", (int)cell.cellView.tag, (int)indexPath.row);
     cell = [self getUnusedCellFromPool];
+    
+    RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:_bridge moduleName: @"TestRow" initialProperties:@{@"message" : [NSString stringWithFormat:@"Hi from Objective-C !!! %ld", (long)indexPath.row]}];
+    
+    [cell addSubview:rootView];
   }
   else
   {
     //NSLog(@"Recycling childIndex %d for row %d", (int)cell.cellView.tag, (int)indexPath.row);
   }
   
-  RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:_bridge moduleName: @"TestRow" initialProperties:nil];
   
-  [cell addSubview:rootView];
   /*
   NSDictionary *row = [self.rows objectAtIndex:indexPath.row];
     
